@@ -720,6 +720,19 @@
 - Will do your fucking head in
 
 !SLIDE
+.notes When you call callcc, you pass it a block that takes the current continuation as a proc. Calling that proc is the same as returning.
+    @@@ ruby
+    require 'continuation'
+
+    def get_number
+      callcc do |cc|
+        cc.call(3)
+      end
+    end
+
+    get_number # => 3
+
+!SLIDE
 .notes Here's our original Sequence code, one more time.
     @@@ ruby
     Sequence.run do

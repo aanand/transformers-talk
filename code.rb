@@ -411,6 +411,18 @@ module Examples
     end
   end
 
+  def callcc_example
+    require 'continuation'
+
+    def get_number
+      callcc do |cc|
+        cc.call(3)
+      end
+    end
+
+    get_number
+  end
+
   def nil_check_example_callcc
     NilCheck.run do |o|
       x =o< 1
