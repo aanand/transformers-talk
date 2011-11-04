@@ -91,7 +91,25 @@
     # => 3
 
 !SLIDE
-.notes So how do we get the original code to work? We just include 'Transformer' in Sequence. Easy!
+.notes So how do we get the original code to work? We need to turn this into this.
+    @@@ ruby
+    Sequence.run do
+      x <- 1
+      y <- 2
+
+      x + y
+    end
+
+    Sequence.instance_eval do
+      bind 1 do |x|
+        bind 2 do |y|
+          x + y
+        end
+      end
+    end
+
+!SLIDE
+.notes First, let's cleanly separate concerns and do it in a separate module. Transformer needs to implement the 'run' method, which will somehow turn the first block of code into the second.
     @@@ ruby
     module Sequence
       class << self
@@ -102,9 +120,6 @@
         end
       end
     end
-
-!SLIDE
-.notes Ha ha ha. So anyway. Transformer needs to implement the 'run' method, and somehow turn the first block of code into the second.
 
 !SLIDE
 .notes The 'run' method calls a method to transform the block and then instance_evals it in the original block's lexical scope (that's what the second argument to eval does). Alright, but where's the definition of 'transform'?
@@ -150,6 +165,8 @@
 !SLIDE
 .notes That line returns this, which is called an S-expression.
     @@@ ruby
+    proc { x + y }.to_sexp
+
     s(:iter,
       s(:call, nil, :proc, s(:arglist)),
       nil,
@@ -162,6 +179,8 @@
 !SLIDE
 .notes Let's remove the s-es and commas though. Anyway, now that we have a way of getting at the syntax of a block, we can transform it.
     @@@ ruby
+    proc { x + y }.to_sexp
+
     (:iter
       (:call nil :proc (:arglist))
       nil
