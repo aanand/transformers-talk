@@ -49,7 +49,7 @@ Code Blocks in Disguise
     # => ?
 
 !SLIDE
-.notes It returns 3. How does it do that?
+.notes It returns 3.
     @@@ ruby
     Sequence.run do
       x <- 1
@@ -61,7 +61,7 @@ Code Blocks in Disguise
     # => 3
 
 !SLIDE
-.notes This is a magic trick in three parts.
+# How? #
 
 !SLIDE
 .notes First, let's pretend we wrote it like this.
@@ -154,9 +154,6 @@ Code Blocks in Disguise
       Ruby2Ruby.new.process(
         Rewriter.new.process(block.to_sexp))
     end
-
-!SLIDE
-.notes Let me introduce my friends.
 
 !SLIDE
 .notes First up, Sourcify.
