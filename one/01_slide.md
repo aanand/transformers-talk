@@ -328,3 +328,130 @@
 
     "Sequence.instance_eval { bind(1) { |x| bind(2) { |y| (x + y) } } }"
 
+!SLIDE
+.notes And we're there. So what have we achieved? Well, we've managed to implement something Ruby gives us out of the box - variable assignment - in the most complex, bizarre way possible. Why on earth would you want to do that?
+    @@@ ruby
+    Sequence.run do
+      x <- 1
+      y <- 2
+
+      x + y
+    end
+
+    # => 3
+
+!SLIDE
+.notes Let's revisit the definition of 'bind'. It's pretty simple. It just calls the function with the object as its argument.
+    @@@ ruby
+    module Sequence
+      class << self
+        include Transformer
+
+        def bind(obj, &fn)
+          fn.call(obj)
+        end
+      end
+    end
+
+!SLIDE
+.notes Actually, I'm a bit worried about this code. What if obj is nil? Let's add a check for that.
+    @@@ ruby
+    module NilCheck
+      class << self
+        include Transformer
+
+        def bind(obj, &fn)
+          if obj.nil?
+            nil
+          else
+            fn.call(obj)
+          end
+        end
+      end
+    end
+
+!SLIDE
+.notes Normal behaviour is preserved, of course.
+    @@@ ruby
+    NilCheck.run do
+      x <- 1
+      y <- 2
+
+      x + y
+    end
+
+    # => 3
+
+!SLIDE
+.notes What if we set y to nil?
+    @@@ ruby
+    NilCheck.run do
+      x <- 1
+      y <- nil
+
+      x + y
+    end
+
+    # => ?
+
+!SLIDE
+.notes We get nil. 'x + y' is never called.
+    @@@ ruby
+    NilCheck.run do
+      x <- 1
+      y <- nil
+
+      x + y
+    end
+
+    # => nil
+
+!SLIDE
+.notes Even if the code keeps going, execution stops.
+    @@@ ruby
+    NilCheck.run do
+      x <- 1
+      y <- nil
+      z <- x + y
+
+      raise "I MUST NEVER RUN"
+    end
+
+    # => nil
+
+!SLIDE
+.notes If you don't see how this might be useful, consider a pretty simple database.
+    @@@ ruby
+    class Person < Struct.new(:name, :parent)
+      INDEX = {}
+
+      def self.create(name, parent)
+        INDEX[name] = new(name, parent)
+      end
+
+      def self.find(name)
+        INDEX[name]
+      end
+    end
+
+    alice   = Person.create("Alice", nil)
+    bob     = Person.create("Bob", alice)
+    charles = Person.create("Charles", bob)
+
+!SLIDE
+    @@@ ruby
+    def name_of_grandparent(name)
+      NilCheck.run do
+        child       <- Person.find(name)
+        parent      <- child.parent
+        grandparent <- parent.parent
+
+        grandparent.name
+      end
+    end
+
+    name_of_grandparent("Zac")     #=> nil
+    name_of_grandparent("Alice")   #=> nil
+    name_of_grandparent("Bob")     #=> nil
+    name_of_grandparent("Charles") #=> "Alice"
+

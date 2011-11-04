@@ -171,5 +171,84 @@ module Examples
       x + y
     end)
   end
+
+  def nil_check_definition_full
+    module NilCheck
+      class << self
+        include Transformer
+
+        def bind(obj, &fn)
+          if obj.nil?
+            nil
+          else
+            fn.call(obj)
+          end
+        end
+      end
+    end
+  end
+
+  def nil_check_example_1
+    NilCheck.run do
+      x <- 1
+      y <- 2
+
+      x + y
+    end
+  end
+
+  def nil_check_example_2
+    NilCheck.run do
+      x <- 1
+      y <- nil
+
+      x + y
+    end
+  end
+
+  def nil_check_example_3
+    NilCheck.run do
+      x <- 1
+      y <- nil
+      z <- x + y
+
+      raise "I MUST NEVER RUN"
+    end
+  end
+
+  def nil_check_example_4_defs
+    class Person < Struct.new(:name, :parent)
+      INDEX = {}
+
+      def self.create(name, parent)
+        INDEX[name] = new(name, parent)
+      end
+
+      def self.find(name)
+        INDEX[name]
+      end
+    end
+
+    alice   = Person.create("Alice", nil)
+    bob     = Person.create("Bob", alice)
+    charles = Person.create("Charles", bob)
+  end
+
+  def nil_check_example_4_usage
+    def name_of_grandparent(name)
+      NilCheck.run do
+        child       <- Person.find(name)
+        parent      <- child.parent
+        grandparent <- parent.parent
+
+        grandparent.name
+      end
+    end
+
+    name_of_grandparent("Zac")     #=> nil
+    name_of_grandparent("Alice")   #=> nil
+    name_of_grandparent("Bob")     #=> nil
+    name_of_grandparent("Charles") #=> "Alice"
+  end
 end
 
