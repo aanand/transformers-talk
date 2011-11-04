@@ -318,5 +318,73 @@ module Examples
       result(x+1 + y+1)
     end.play
   end
+
+  def callback_definition
+    Object.send(:remove_const, :Callback) rescue nil
+
+    class Callback < Struct.new(:obj, :method, :args)
+      class << self
+        include Transformer
+
+        def wrap(obj)
+          new(obj, nil, nil)
+        end
+
+        def bind(wrapper, &fn)
+          wrapper.obj.send(wrapper.method, *wrapper.args) do |result|
+            fn.call(wrap(result))
+          end
+        end
+      end
+
+      def method_missing(m, *args)
+        Callback.new(obj, m, args)
+      end
+    end
+  end
+
+  def db_definition
+    class DB
+      def self.connect(*args)
+        yield new
+      end
+
+      def table(name)
+        yield Table.new
+      end
+    end
+
+    class Table
+      def insert(attrs)
+        yield Row.new
+      end
+    end
+
+    class Row
+      def id
+        1
+      end
+    end
+  end
+
+  def callback_example_before
+    DB.connect('localhost', 'root', 'secret') do |db|
+      db.table('people') do |table|
+        table.insert(name: "Alice") do |row|
+          row.id
+        end
+      end
+    end
+  end
+
+  def callback_example_after
+    Callback.run do
+      db    <- wrap(DB).connect('localhost', 'root', 'secret')
+      table <- db.table('people')
+      row   <- table.insert(name: 'Alice')
+
+      row.id
+    end
+  end
 end
 

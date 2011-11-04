@@ -556,3 +556,26 @@
      [10, 0.08333333333333333],
      [11, 0.05555555555555555],
      [12, 0.027777777777777776]]
+
+!SLIDE small-code
+.notes One more. Do you like this code?
+    @@@ ruby
+    DB.connect('localhost', 'root', 'secret') do |db|
+      db.table('people') do |table|
+        table.insert(name: "Alice") do |row|
+          row.id
+        end
+      end
+    end
+
+!SLIDE small-code
+.notes How about this?
+    @@@ ruby
+    Callback.run do
+      db    <- wrap(DB).connect('localhost', 'root', 'secret')
+      table <- db.table('people')
+      row   <- table.insert(name: 'Alice')
+
+      row.id
+    end
+
