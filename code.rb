@@ -291,5 +291,32 @@ module Examples
       [x+y]
     end
   end
+
+=begin
+  # To make these work, run:
+  require 'do_notation/monads/simulations'
+  class Distribution
+    class << self
+      alias_method :result, :unit
+    end
+  end
+=end
+
+  def distribution_example_1
+    Distribution.run do
+      x <- rand(6)
+
+      result(x+1)
+    end.play
+  end
+
+  def distribution_example_2
+    Distribution.run do
+      x <- rand(6)
+      y <- rand(6)
+
+      result(x+1 + y+1)
+    end.play
+  end
 end
 

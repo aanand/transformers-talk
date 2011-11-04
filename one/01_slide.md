@@ -512,3 +512,47 @@
     end
 
     # => [11, 31, 13, 23]
+
+!SLIDE
+.notes I'm going to speed up now. What do you think this does?
+    @@@ ruby
+    Distribution.run do
+      x <- rand(6)
+
+      result(x+1)
+    end.play
+
+!SLIDE
+.notes It enumerates the possible outcomes of a die roll and their probabilities.
+    @@@ ruby
+    [[1, 0.16666666666666666],
+     [2, 0.16666666666666666],
+     [3, 0.16666666666666666],
+     [4, 0.16666666666666666],
+     [5, 0.16666666666666666],
+     [6, 0.16666666666666666]]
+
+!SLIDE
+.notes Let's roll two dice and add the numbers.
+    @@@ ruby
+    Distribution.run do
+      x <- rand(6)
+      y <- rand(6)
+
+      result(x+1 + y+1)
+    end.play
+
+!SLIDE
+.notes Get it? The most likely outcome is 7.
+    @@@ ruby
+    [[2, 0.027777777777777776],
+     [3, 0.05555555555555555],
+     [4, 0.08333333333333333],
+     [5, 0.1111111111111111],
+     [6, 0.1388888888888889],
+     [7, 0.16666666666666669],
+     [8, 0.1388888888888889],
+     [9, 0.1111111111111111],
+     [10, 0.08333333333333333],
+     [11, 0.05555555555555555],
+     [12, 0.027777777777777776]]
