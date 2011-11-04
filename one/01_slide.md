@@ -877,3 +877,82 @@ Code Blocks in Disguise
 !SLIDE
 # The result is the same. #
 
+!SLIDE
+# Thanks. #
+
+!SLIDE
+# Oh, wait. #
+
+!SLIDE
+# Dramatis Personæ #
+
+!SLIDE left
+# Transformer #
+
+**Real name:** “Monad” / “Do-notation”
+
+**Made famous by:** the Haskell programming language
+
+Sequence, NilCheck, Search etc are monads
+
+Do-notation is the name of the syntax
+
+!SLIDE left
+# Distribution #
+
+**Parent:** Mauricio Fernandez (eigenclass.org)
+
+**Siblings:** Expectation, Simulation
+
+“Warm fuzzy things for random simulations”
+
+http://bit.ly/warmfuzzythings
+
+!SLIDE left
+# callcc #
+
+**Real name:** `call-with-current-continuation`
+
+**Born:** 1970s, MIT
+
+**Parents:** Guy L. Steele, Gerald Jay Sussman
+
+Scheme programming language
+
+!SLIDE left
+# S-Expression #
+
+**Born:** 1958, MIT
+
+**Parent:** John McCarthy, September 4, 1927 – October 24, 2011
+
+_Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part I_
+
+Defined a hypothetical language called LISP
+
+!SLIDE left
+# Macro #
+
+Function that transforms a syntax tree
+
+Found in almost all Lisps, including Common Lisp, Scheme and Clojure
+
+Powerful and dangerous
+
+!SLIDE smaller
+# Further reading #
+
+- http://en.wikipedia.org/wiki/Monad_(functional_programming)
+- http://en.wikibooks.org/wiki/Haskell/do_Notation
+- http://en.wikipedia.org/wiki/Lisp_programming_language
+- http://en.wikipedia.org/wiki/Call-with-current-continuation
+
+!SLIDE
+# Thanks. For real this time. #
+
+https://github.com/aanand/do_notation
+
+http://aanandprasad.com
+
+@aanand
+

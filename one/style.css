@@ -16,6 +16,10 @@ pre, code, pre *, code * {
   font-size: 250%;
 }
 
+.content.left > p {
+  text-align: left;
+}
+
 .small-code pre {
   font-size: 150%;
 }
