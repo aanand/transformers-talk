@@ -196,7 +196,7 @@ Code Blocks in Disguise
         (:arglist
           (:call nil :y (:arglist)))))
 
-!SLIDE
+!SLIDE small-code
 .notes Here's what you get when you call .to_sexp on our code block.
     @@@ ruby
     (:block
@@ -341,6 +341,8 @@ Code Blocks in Disguise
       x + y
     end)
 
+    # outputs this code as a string:
+
     Sequence.instance_eval {
       proc {
         bind(1) { |x|
@@ -446,12 +448,12 @@ Code Blocks in Disguise
 
     # => nil
 
-!SLIDE
+!SLIDE small-code
 .notes If you don't see how this might be useful, here's a simple example.
     @@@ ruby
     def grandparent_name(person_id)
       NilCheck.run do
-        person      <- Person.get(person_id)
+        person      <- Person.find_by_id(person_id)
         parent      <- person.parent
         grandparent <- parent.parent
 
@@ -459,12 +461,14 @@ Code Blocks in Disguise
       end
     end
 
-    # Family tree: Alice -> Bob -> Charles
+    alice   = Person.create(name: "Alice")
+    bob     = Person.create(name: "Bob",     parent: alice)
+    charles = Person.create(name: "Charles", parent: bob)
 
-    grandparent_name("Zac")     #=> nil
-    grandparent_name("Alice")   #=> nil
-    grandparent_name("Bob")     #=> nil
-    grandparent_name("Charles") #=> "Alice"
+    grandparent_name(999)        #=> nil
+    grandparent_name(alice.id)   #=> nil
+    grandparent_name(bob.id)     #=> nil
+    grandparent_name(charles.id) #=> "Alice"
 
 !SLIDE
 .notes Let's go further. What do you think this returns?
@@ -615,10 +619,21 @@ Code Blocks in Disguise
 # A generalised framework for composing operations. #
 
 !SLIDE
-.notes We have all these different ways of composing operations. All these different definitions of a left-pointing arrow. And really, a better name for Sequence would be...
+.notes We have all these different ways of composing operations. All these different definitions of a left-pointing arrow.
 
 <ul>
   <li>Sequence</li>
+  <li>NilCheck</li>
+  <li>Search</li>
+  <li>Distribution</li>
+  <li>Callback</li>
+  <li>...</li>
+</ul>
+
+!SLIDE
+.notes And really, a better name for Sequence would be...
+<ul class="faded">
+  <li class="highlight">Sequence</li>
   <li>NilCheck</li>
   <li>Search</li>
   <li>Distribution</li>
