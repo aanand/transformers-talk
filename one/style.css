@@ -6,3 +6,11 @@
   font-size: 100%;
 }
 
+.faded {
+  color: #bbb;
+}
+
+.faded .highlight {
+  color: black;
+}
+

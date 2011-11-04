@@ -577,3 +577,40 @@
       row.id
     end
 
+!SLIDE
+# What is this? #
+
+!SLIDE
+# It’s a generalised framework for composing operations. #
+
+!SLIDE
+.notes We have all these different ways of composing operations. All these different definitions of a left-pointing arrow. And really, a better name for Sequence would be...
+
+<ul>
+  <li>Sequence</li>
+  <li>NilCheck</li>
+  <li>Search</li>
+  <li>Distribution</li>
+  <li>Callback</li>
+  <li>...</li>
+</ul>
+
+!SLIDE
+<ul class="faded">
+  <li class="highlight">All the code you’ve ever written</li>
+  <li>NilCheck</li>
+  <li>Search</li>
+  <li>Distribution</li>
+  <li>Callback</li>
+  <li>...</li>
+</ul>
+
+!SLIDE
+# What’s imperative programming? #
+
+!SLIDE
+# A special case. #
+
+!SLIDE
+# A pattern. #
+
