@@ -324,10 +324,18 @@
       x + y
     end)
 
-    "Sequence.instance_eval { bind(1) { |x| bind(2) { |y| (x + y) } } }"
+    Sequence.instance_eval {
+      proc {
+        bind(1) { |x|
+          bind(2) { |y|
+            (x + y)
+          }
+        }
+      }
+    }
 
 !SLIDE
-.notes And we're there. So what have we achieved? Well, we've managed to implement something Ruby gives us out of the box - variable assignment - in the most complex, bizarre way possible. Why on earth would you want to do that?
+.notes And we're there.
     @@@ ruby
     Sequence.run do
       x <- 1
@@ -337,6 +345,10 @@
     end
 
     # => 3
+
+!SLIDE
+.notes So what have we achieved? Well, we've managed to implement something Ruby gives us out of the box - variable assignment - in the most complex, bizarre way possible. Why on earth would you want to do that?
+# What is this? #
 
 !SLIDE
 .notes Let's revisit the definition of 'bind'. It's pretty simple. It just calls the function with the object as its argument.
@@ -478,7 +490,9 @@
       [x+y]
     end
 
-    # => [11, 21, 31, 12, 22, 32, 13, 23, 33]
+    [11, 21, 31,
+     12, 22, 32,
+     13, 23, 33]
 
 !SLIDE
 .notes Now let's define a strange-looking method on Search. What does it do?
@@ -581,7 +595,7 @@
 # What is this? #
 
 !SLIDE
-# It’s a generalised framework for composing operations. #
+# A generalised framework for composing operations. #
 
 !SLIDE
 .notes We have all these different ways of composing operations. All these different definitions of a left-pointing arrow. And really, a better name for Sequence would be...
