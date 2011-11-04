@@ -142,11 +142,9 @@
 !SLIDE
 .notes Here it is. Wait, what? Ruby2Ruby? Rewriter?? block.to_sexp???????
     @@@ ruby
-    module Transformer
-      def transform(block)
-        Ruby2Ruby.new.process(
-          Rewriter.new.process(block.to_sexp))
-      end
+    def transform(block)
+      Ruby2Ruby.new.process(
+        Rewriter.new.process(block.to_sexp))
     end
 
 !SLIDE
