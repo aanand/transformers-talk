@@ -439,3 +439,76 @@
     grandparent_name("Bob")     #=> nil
     grandparent_name("Charles") #=> "Alice"
 
+!SLIDE
+.notes Let's go further. What do you think this returns?
+    @@@ ruby
+    Search.run do
+      x <- ["first", "second"]
+      y <- ["once", "twice"]
+
+      ["#{x} cousin #{y} removed"]
+    end
+
+!SLIDE
+.notes That's right.
+    @@@ ruby
+    ["first cousin once removed",
+     "first cousin twice removed",
+     "second cousin once removed",
+     "second cousin twice removed"]
+
+!SLIDE
+.notes Here's how.
+    @@@ ruby
+    module Search
+      class << self
+        include Transformer
+
+        def bind(array, &fn)
+          array.map(&fn).inject([], :+)
+        end
+      end
+    end
+
+!SLIDE
+.notes Let's add some numbers.
+    @@@ ruby
+    Search.run do
+      x <- [1, 2, 3]
+      y <- [10, 20, 30]
+
+      [x+y]
+    end
+
+    # => [11, 21, 31, 12, 22, 32, 13, 23, 33]
+
+!SLIDE
+.notes Now let's define a strange-looking method on Search. What does it do?
+    @@@ ruby
+    module Search
+      class << self
+        def make_sure(condition)
+          if condition
+            [[]]
+          else
+            []
+          end
+        end
+      end
+    end
+
+!SLIDE
+.notes It prunes the search tree. How on earth did that work? I'll leave that as an exercise for the reader. I barely understand it myself.
+    @@@ ruby
+    require 'prime'
+
+    Search.run do
+      x <- [1, 2, 3]
+      y <- [10, 20, 30]
+
+      make_sure (x+y).prime?
+
+      [x+y]
+    end
+
+    # => [11, 31, 13, 23]

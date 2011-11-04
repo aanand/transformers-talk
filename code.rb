@@ -234,5 +234,62 @@ module Examples
     grandparent_name("Bob")     #=> nil
     grandparent_name("Charles") #=> "Alice"
   end
+
+  def search_definition
+    module Search
+      class << self
+        include Transformer
+
+        def bind(array, &fn)
+          array.map(&fn).inject([], :+)
+        end
+      end
+    end
+  end
+
+  def array_example_1
+    Search.run do
+      x <- ["first", "second"]
+      y <- ["once", "twice"]
+
+      ["#{x} cousin #{y} removed"]
+    end
+  end
+
+  def array_example_2
+    Search.run do
+      x <- [1, 2, 3]
+      y <- [10, 20, 30]
+
+      [x+y]
+    end
+  end
+
+  def make_sure_definition
+    module Search
+      class << self
+        def make_sure(condition)
+          if condition
+            [[]]
+          else
+            []
+          end
+        end
+      end
+    end
+  end
+
+  def array_example_3
+    require 'prime'
+
+    Search.run do
+      x <- [1, 2, 3]
+      y <- [10, 20, 30]
+
+      make_sure (x+y).prime?
+
+      [x+y]
+    end
+  end
 end
 
