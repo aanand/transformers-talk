@@ -216,39 +216,23 @@ module Examples
     end
   end
 
-  def nil_check_example_4_defs
-    class Person < Struct.new(:name, :parent)
-      INDEX = {}
-
-      def self.create(name, parent)
-        INDEX[name] = new(name, parent)
-      end
-
-      def self.find(name)
-        INDEX[name]
-      end
-    end
-
-    alice   = Person.create("Alice", nil)
-    bob     = Person.create("Bob", alice)
-    charles = Person.create("Charles", bob)
-  end
-
-  def nil_check_example_4_usage
-    def name_of_grandparent(name)
+  def nil_check_example_4
+    def grandparent_name(person_id)
       NilCheck.run do
-        child       <- Person.find(name)
-        parent      <- child.parent
+        person      <- Person.get(person_id)
+        parent      <- person.parent
         grandparent <- parent.parent
 
         grandparent.name
       end
     end
 
-    name_of_grandparent("Zac")     #=> nil
-    name_of_grandparent("Alice")   #=> nil
-    name_of_grandparent("Bob")     #=> nil
-    name_of_grandparent("Charles") #=> "Alice"
+    # Family tree: Alice -> Bob -> Charles
+
+    grandparent_name("Zac")     #=> nil
+    grandparent_name("Alice")   #=> nil
+    grandparent_name("Bob")     #=> nil
+    grandparent_name("Charles") #=> "Alice"
   end
 end
 
