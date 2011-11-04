@@ -1,4 +1,12 @@
 !SLIDE
+# Transformers #
+
+Code Blocks in Disguise
+
+!SLIDE
+(Sorry.)
+
+!SLIDE
 .notes What does this code return?
     @@@ ruby
     x = 1
