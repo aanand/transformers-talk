@@ -306,6 +306,15 @@
 .notes If you install sourcify, you get Ruby2Ruby for free. (It's a dependency.)
 # Ruby2Ruby #
 
+!SLIDE
+.notes Ruby2Ruby converts S-expressions into strings of code.
+    @@@ ruby
+    Ruby2Ruby.new.process(
+      s(:call, nil, :puts,
+        s(:arglist, s(:lit, "Hello World"))))
+
+    # => 'puts("Hello World")'
+
 !SLIDE small-code
 .notes If we run Ruby2Ruby on that S-expression we got just now, we get this.
     @@@ ruby

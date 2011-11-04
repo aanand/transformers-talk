@@ -151,6 +151,10 @@ module Examples
     end
   end
 
+  def ruby2ruby_example
+    Ruby2Ruby.new.process s(:call, nil, :puts, s(:arglist, s(:lit, "Hello World")))
+  end
+
   def ruby2ruby_on_our_transformed_block
     block = proc do
       x <- 1
