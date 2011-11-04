@@ -28,6 +28,10 @@ pre, code, pre *, code * {
   font-size: 100%;
 }
 
+pre.multiline-string {
+  color: red;
+}
+
 .faded {
   color: #bbb;
 }

@@ -193,37 +193,50 @@ Code Blocks in Disguise
         (:arglist
           (:call nil :y (:arglist)))))
 
-!SLIDE small-code
-.notes Here's what you get when you call .to_sexp on our code block.
+!SLIDE
+.notes So let's call .to_sexp on our code block.
     @@@ ruby
-    (:block
-      (:call
-        (:call nil :x (:arglist))
-        :<
-        (:arglist
-          (:call (:lit 1) :-@ (:arglist))))
-      (:call
-        (:call nil :y (:arglist))
-        :<
-        (:arglist
-          (:call (:lit 2) :-@ (:arglist))))
-      (:call
-        (:call nil :x (:arglist))
-        :+
-        (:arglist
-          (:call nil :y (:arglist)))))
+    block = proc do
+      x <- 1
+      y <- 2
+
+      x + y
+    end
+
+    pp block.to_sexp
+
+!SLIDE small-code
+.notes Here's the result.
+    @@@ ruby
+    (:iter
+      (:call nil :proc (:arglist))
+      nil
+      (:block
+        (:call
+          (:call nil :x (:arglist))
+          :<
+          (:arglist (:call (:lit 1) :-@ (:arglist))))
+        (:call
+          (:call nil :y (:arglist))
+          :<
+          (:arglist (:call (:lit 2) :-@ (:arglist))))
+        (:call
+          (:call nil :x (:arglist))
+          :+
+          (:arglist (:call nil :y (:arglist))))))
 
 !SLIDE
 .notes And now you can see my trick. `x <- 1` is actually `x < (-1)`.
     @@@ ruby
-    x <- 1
-    # is actually
-    x < (-1)
+    (:call
+      (:call nil :x (:arglist))
+      :<
+      (:arglist
+        (:call (:lit 1) :-@ (:arglist))))
 
-    (:call nil :x (:arglist))
-    :<
-    (:arglist
-      (:call (:lit 1) :-@ (:arglist))))
+                   x <- 1
+               # is actually #
+                  x < (-1)
 
 !SLIDE
 .notes So. In order to transform this into this...
@@ -290,7 +303,7 @@ Code Blocks in Disguise
 !SLIDE small-code
 .notes Ha ha ha. No, seriously. Here's the output. OK, but how do we turn it back into Ruby?
     @@@ ruby
-    Rewriter.new.process(block.to_sexp)
+    pp Rewriter.new.process(block.to_sexp)
 
     (:iter
       (:call nil :proc (:arglist))
@@ -316,39 +329,41 @@ Code Blocks in Disguise
     @@@ ruby
     Ruby2Ruby.new.process(
       s(:call, nil, :puts,
-        s(:arglist, s(:lit, "Hello World"))))
+        s(:arglist,
+          s(:lit, "Hello World"))))
 
     # => 'puts("Hello World")'
 
 !SLIDE small-code
-.notes If we run Ruby2Ruby on that S-expression we got just now, we get this.
+.notes If we run Ruby2Ruby on that S-expression we got just now...
     @@@ ruby
-    Ruby2Ruby.new.process(
-      DoNotation::Rewriter.new.process( block.to_sexp))
+    Ruby2Ruby.new.process(Rewriter.new.process(block.to_sexp))
 
-    "proc { bind(1) { |x| bind(2) { |y| (x + y) } } }"
+    => ?
 
 !SLIDE small-code
+.notes ...we get this.
+    @@@ ruby
+    Ruby2Ruby.new.process(Rewriter.new.process(block.to_sexp))
+
+    => "proc { bind(1) { |x| bind(2) { |y| (x + y) } } }"
+
+!SLIDE
 .notes So if we run 'ruby_for' on our block, we get exactly what we wanted.
     @@@ ruby
-    Sequence.ruby_for(proc do
-      x <- 1
-      y <- 2
+    Sequence.ruby_for(block) =>
 
-      x + y
-    end)
-
-    # outputs this code as a string:
-
-    Sequence.instance_eval {
-      proc {
-        bind(1) { |x|
-          bind(2) { |y|
-            (x + y)
-          }
-        }
+<pre class="multiline-string">
+Sequence.instance_eval {
+  proc {
+    bind(1) { |x|
+      bind(2) { |y|
+        (x + y)
       }
     }
+  }
+}
+</pre>
 
 !SLIDE
 .notes And we're there.
