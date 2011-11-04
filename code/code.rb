@@ -2,19 +2,20 @@
 
 require 'bundler'
 Bundler.setup
+
 require 'do_notation'
 
-module Examples
-  module_function
+module Examples; end
 
-  def assignment
+class << Examples
+  define_method :assignment do
     x = 1
     y = 2
 
     x + y
   end
 
-  def sequence
+  define_method :sequence do
     Sequence.run do
       x <- 1
       y <- 2
@@ -23,7 +24,7 @@ module Examples
     end
   end
 
-  def sequence_transformed
+  define_method :sequence_transformed do
     Sequence.instance_eval do
       bind 1 do |x|
         bind 2 do |y|
@@ -33,7 +34,7 @@ module Examples
     end
   end
 
-  def sequence_definition_bind
+  define_method :sequence_definition_bind do
     module Sequence
       class << self
         def bind(obj, &fn)
@@ -43,7 +44,7 @@ module Examples
     end
   end
 
-  def sequence_definition_full
+  define_method :sequence_definition_full do
     module Sequence
       class << self
         include Transformer
@@ -55,7 +56,7 @@ module Examples
     end
   end
 
-  def transformer_definition_run
+  define_method :transformer_definition_run do
     module Transformer
       def run(&block)
         eval(ruby_for(block), block.binding).call
@@ -67,22 +68,22 @@ module Examples
     end
   end
 
-  def transformer_definition_transform
+  define_method :transformer_definition_transform do
     def transform(block)
       Ruby2Ruby.new.process(
         Rewriter.new.process(block.to_sexp))
     end
   end
 
-  def block_to_sexp
+  define_method :block_to_sexp do
     pp proc { x + y }.to_sexp; nil
   end
 
-  def block_to_sexp_lisp_style
+  define_method :block_to_sexp_lisp_style do
     puts DoNotation.pp(proc { x + y }.to_sexp)
   end
 
-  def our_code_to_sexp
+  define_method :our_code_to_sexp do
     block = proc do
       x <- 1
       y <- 2
@@ -93,7 +94,7 @@ module Examples
     puts DoNotation.pp(block.to_sexp.last)
   end
 
-  def our_code_transformed_to_sexp
+  define_method :our_code_transformed_to_sexp do
     block = proc do
       x <- 1
       y <- 2
@@ -104,7 +105,7 @@ module Examples
     puts DoNotation.pp(DoNotation::Rewriter.new.process(block.to_sexp))
   end
 
-  def rewriter_definition_process
+  define_method :rewriter_definition_process do
     class Rewriter
       def process(exp)
         if exp[3].is_a?(Sexp) and exp[3][0] == :block
@@ -117,7 +118,7 @@ module Examples
     end
   end
 
-  def rewriter_definition_rewrite_assignments
+  define_method :rewriter_definition_rewrite_assignments do
     class Rewriter
       def rewrite_assignments exp
         return [] if exp.empty?
@@ -151,11 +152,11 @@ module Examples
     end
   end
 
-  def ruby2ruby_example
+  define_method :ruby2ruby_example do
     Ruby2Ruby.new.process s(:call, nil, :puts, s(:arglist, s(:lit, "Hello World")))
   end
 
-  def ruby2ruby_on_our_transformed_block
+  define_method :ruby2ruby_on_our_transformed_block do
     block = proc do
       x <- 1
       y <- 2
@@ -166,7 +167,7 @@ module Examples
     Ruby2Ruby.new.process(DoNotation::Rewriter.new.process(block.to_sexp))
   end
 
-  def pretend_ruby_for_command
+  define_method :pretend_ruby_for_command do
     Sequence.ruby_for(proc do
       x <- 1
       y <- 2
@@ -175,7 +176,7 @@ module Examples
     end)
   end
 
-  def nil_check_definition_full
+  define_method :nil_check_definition_full do
     module NilCheck
       class << self
         include Transformer
@@ -191,7 +192,7 @@ module Examples
     end
   end
 
-  def nil_check_example_1
+  define_method :nil_check_example_1 do
     NilCheck.run do
       x <- 1
       y <- 2
@@ -200,7 +201,7 @@ module Examples
     end
   end
 
-  def nil_check_example_2
+  define_method :nil_check_example_2 do
     NilCheck.run do
       x <- 1
       y <- nil
@@ -209,7 +210,7 @@ module Examples
     end
   end
 
-  def nil_check_example_3
+  define_method :nil_check_example_3 do
     NilCheck.run do
       x <- 1
       y <- nil
@@ -219,7 +220,7 @@ module Examples
     end
   end
 
-  def nil_check_example_4
+  define_method :nil_check_example_4 do
     def grandparent_name(person_id)
       NilCheck.run do
         person      <- Person.get(person_id)
@@ -238,7 +239,7 @@ module Examples
     grandparent_name("Charles") #=> "Alice"
   end
 
-  def search_definition
+  define_method :search_definition do
     module Search
       class << self
         include Transformer
@@ -250,7 +251,7 @@ module Examples
     end
   end
 
-  def array_example_1
+  define_method :array_example_1 do
     Search.run do
       x <- ["first", "second"]
       y <- ["once", "twice"]
@@ -259,7 +260,7 @@ module Examples
     end
   end
 
-  def array_example_2
+  define_method :array_example_2 do
     Search.run do
       x <- [1, 2, 3]
       y <- [10, 20, 30]
@@ -268,7 +269,7 @@ module Examples
     end
   end
 
-  def make_sure_definition
+  define_method :make_sure_definition do
     module Search
       class << self
         def make_sure(condition)
@@ -282,7 +283,7 @@ module Examples
     end
   end
 
-  def array_example_3
+  define_method :array_example_3 do
     require 'prime'
 
     Search.run do
@@ -305,7 +306,7 @@ module Examples
   end
 =end
 
-  def distribution_example_1
+  define_method :distribution_example_1 do
     Distribution.run do
       x <- rand(6)
 
@@ -313,7 +314,7 @@ module Examples
     end.play
   end
 
-  def distribution_example_2
+  define_method :distribution_example_2 do
     Distribution.run do
       x <- rand(6)
       y <- rand(6)
@@ -322,7 +323,7 @@ module Examples
     end.play
   end
 
-  def callback_definition
+  define_method :callback_definition do
     Object.send(:remove_const, :Callback) rescue nil
 
     class Callback < Struct.new(:obj, :method, :args)
@@ -346,7 +347,7 @@ module Examples
     end
   end
 
-  def db_definition
+  define_method :db_definition do
     class DB
       def self.connect(*args)
         yield new
@@ -370,7 +371,7 @@ module Examples
     end
   end
 
-  def callback_example_before
+  define_method :callback_example_before do
     DB.connect('localhost', 'root', 'secret') do |db|
       db.table('people') do |table|
         table.insert(name: "Alice") do |row|
@@ -380,7 +381,7 @@ module Examples
     end
   end
 
-  def callback_example_after
+  define_method :callback_example_after do
     Callback.run do
       db    <- wrap(DB).connect('localhost', 'root', 'secret')
       table <- db.table('people')
@@ -390,7 +391,7 @@ module Examples
     end
   end
 
-  def goliath_example
+  define_method :goliath_example do
     require 'goliath'
     require 'em-synchrony/em-http'
 
@@ -402,7 +403,7 @@ module Examples
     end
   end
 
-  def sequence_example_callcc
+  define_method :sequence_example_callcc do
     Sequence.run do |o|
       x =o< 1
       y =o< 2
@@ -411,7 +412,7 @@ module Examples
     end
   end
 
-  def callcc_example
+  define_method :callcc_example do
     require 'continuation'
 
     def get_number
@@ -423,7 +424,7 @@ module Examples
     get_number
   end
 
-  def nil_check_example_callcc
+  define_method :nil_check_example_callcc do
     NilCheck.run do |o|
       x =o< 1
       y =o< nil
@@ -432,7 +433,7 @@ module Examples
     end
   end
 
-  def search_example_callcc
+  define_method :search_example_callcc do
     Search.run do |o|
       x =o< ["first", "second"]
       y =o< ["once", "twice"]
@@ -441,7 +442,7 @@ module Examples
     end
   end
 
-  def transformer_definition_callcc
+  define_method :transformer_definition_callcc do
     require 'continuation'
 
     module Transformer
