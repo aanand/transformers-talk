@@ -1,5 +1,5 @@
 source :rubygems
-gem 'do_notation', path: '/Users/aanand/src/do_notation'
+gem 'do_notation', path: '/Users/aanand/src/do_notation', group: :development
 gem 'bluecloth'
 gem 'nokogiri'
 gem 'showoff'
