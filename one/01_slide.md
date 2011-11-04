@@ -282,7 +282,7 @@
       end
     end
 
-!SLIDE
+!SLIDE small-code
 .notes Ha ha ha. No, seriously. Here's the output. OK, but how do we turn it back into Ruby?
     @@@ ruby
     Rewriter.new.process(block.to_sexp)
