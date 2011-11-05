@@ -353,7 +353,7 @@ Code Blocks in Disguise
     @@@ ruby
     Sequence.ruby_for(block) =>
 
-<pre class="multiline-string">
+<pre class="string">
 Sequence.instance_eval {
   proc {
     bind(1) { |x|

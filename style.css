@@ -1,10 +1,9 @@
 .content {
   font-family: "Helvetica Neue";
-  -webkit-font-smoothing: antialiased;
 }
 
 pre, code, pre *, code * {
-  font-family: "Menlo", monospace !important;
+  font-family: "Monaco", monospace !important;
   line-height: 120% !important;
 }
 
@@ -28,15 +27,23 @@ pre, code, pre *, code * {
   font-size: 100%;
 }
 
-pre.multiline-string {
-  color: red;
+.faded li {
+  opacity: 0.25;
 }
 
-.faded {
-  color: #bbb;
+.faded li.highlight {
+  opacity: 1;
 }
 
-.faded .highlight {
-  color: black;
+/* Syntax highlighting */
+
+.slide {
+  background-color: #1B1D1E;
+  color: #F8F8F2;
 }
 
+.constant        { color: #66D9EF; }
+.string          { color: #E6DB74; }
+.comment         { color: #465457; }
+.symbol, .number { color: #AE81FF; }
+.keyword         { color: #F92672; }
