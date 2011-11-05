@@ -47,3 +47,20 @@ class << Examples
   end
 end
 
+if __FILE__ == $0
+  require 'test/unit'
+
+  class CallccTest < Test::Unit::TestCase
+    def test_sequence
+      assert_equal 3, Examples.sequence_example_callcc
+    end
+
+    def test_nil_check
+      assert_equal nil, Examples.nil_check_example_callcc
+    end
+
+    def test_search
+      assert_equal ["first cousin once removed", "first cousin twice removed", "second cousin once removed", "second cousin twice removed"], Examples.search_example_callcc
+    end
+  end
+end
