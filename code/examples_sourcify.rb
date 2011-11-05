@@ -114,7 +114,7 @@ class << Examples
   define_method :nil_check_example_4 do
     def grandparent_name(person_id)
       NilCheck.run do
-        person      <- Person.get(person_id)
+        person      <- Person.find_by_id(person_id)
         parent      <- person.parent
         grandparent <- parent.parent
 
@@ -122,12 +122,14 @@ class << Examples
       end
     end
 
-    # Family tree: Alice -> Bob -> Charles
+    alice   = Person.create(name: "Alice")
+    bob     = Person.create(name: "Bob",     parent: alice)
+    charles = Person.create(name: "Charles", parent: bob)
 
-    grandparent_name("Zac")     #=> nil
-    grandparent_name("Alice")   #=> nil
-    grandparent_name("Bob")     #=> nil
-    grandparent_name("Charles") #=> "Alice"
+    grandparent_name(999)        #=> nil
+    grandparent_name(alice.id)   #=> nil
+    grandparent_name(bob.id)     #=> nil
+    grandparent_name(charles.id) #=> "Alice"
   end
 
   define_method :array_example_1 do
