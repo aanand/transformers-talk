@@ -904,9 +904,11 @@ Sequence.instance_eval {
 
 **Made famous by:** the Haskell programming language
 
-Sequence, NilCheck, Search etc are monads
+`Sequence`, `NilCheck`, `Search` etc are monads
 
-Do-notation is the name of the syntax
+`Identity`, `Maybe`, `List` in Haskell
+
+Do-notation is the syntax
 
 !SLIDE left
 # Distribution #
@@ -917,7 +919,7 @@ Do-notation is the name of the syntax
 
 “Warm fuzzy things for random simulations”
 
-http://bit.ly/warmfuzzythings
+bit.ly/warmfuzzythings
 
 !SLIDE left
 # callcc #
@@ -935,7 +937,7 @@ Scheme programming language
 
 **Born:** 1958, MIT
 
-**Parent:** John McCarthy, September 4, 1927 – October 24, 2011
+**Parent:** John McCarthy (RIP)
 
 _Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part I_
 
@@ -950,23 +952,15 @@ Found in almost all Lisps, including Common Lisp, Scheme and Clojure
 
 Powerful and dangerous
 
-!SLIDE smaller
-# Further reading #
-
-http://en.wikipedia.org/wiki/Monad_(functional_programming)
-
-http://en.wikibooks.org/wiki/Haskell/do_Notation
-
-http://en.wikipedia.org/wiki/Lisp_programming_language
-
-http://en.wikipedia.org/wiki/Call-with-current-continuation
+!SLIDE
+github.com/aanand/do_notation
 
 !SLIDE
 # Thanks. For real this time. #
 
-https://github.com/aanand/do_notation
+transformers-talk.heroku.com
 
-http://aanandprasad.com
+aanandprasad.com
 
 @aanand
 
