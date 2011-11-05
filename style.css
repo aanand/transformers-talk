@@ -11,6 +11,10 @@ pre, code, pre *, code * {
   margin: 0 0.5em;
 }
 
+.content strong {
+  font-weight: normal;
+}
+
 .content > pre {
   font-size: 250%;
 }
@@ -46,4 +50,5 @@ pre, code, pre *, code * {
 .string          { color: #E6DB74; }
 .comment         { color: #465457; }
 .symbol, .number { color: #AE81FF; }
-.keyword         { color: #F92672; }
+.keyword, h1     { color: #F92672; }
+.title, strong   { color: #A6E22E; }
