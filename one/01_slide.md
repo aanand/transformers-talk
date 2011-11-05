@@ -671,9 +671,6 @@ Sequence.instance_eval {
 # A special case. #
 
 !SLIDE
-# A pattern. #
-
-!SLIDE
 # Thanks. #
 
 !SLIDE
