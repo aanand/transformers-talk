@@ -50,5 +50,5 @@ pre, code, pre *, code * {
 .string          { color: #E6DB74; }
 .comment         { color: #465457; }
 .symbol, .number { color: #AE81FF; }
-.keyword, h1     { color: #F92672; }
+.keyword, h1, h2 { color: #F92672; }
 .title, strong   { color: #A6E22E; }

@@ -722,32 +722,31 @@ Sequence.instance_eval {
     end
 
 !SLIDE
-.notes These frameworks use a feature of Ruby 1.9 called Fibers to make callback-driven code look sequential.
-# Fibers #
+.notes These frameworks let you write your code in the normal, direct style, rather than what's known as "continuation-passing style".
+## Direct Style ##
+    @@@ ruby
+    result = get(url)
+    puts result
 
-!SLIDE small-code
-.notes This style of code is called "continuation-passing style", or "CPS".
-# Continuation-Passing Style #
+## Continuation-Passing Style ##
 
     @@@ ruby
-    DB.connect('localhost', 'root', 'secret') do |db|
-      db.table('people') do |table|
-        table.insert(name: "Alice") do |row|
-          row.id
-        end
-      end
+    get(url) do |result|
+      puts result
     end
 
 !SLIDE incremental
+.notes These frameworks use a feature of Ruby 1.9 called Fibers to make callback-driven code look sequential.
 # Fibers #
 
-- Jump to another bit of code and back
+- Jump to another bit of code
+- Come back later
 - Actually just a restricted form of...
 
 !SLIDE incremental
 # callcc #
 
-- “CALL with Current Continuation"
+- “CALL with Current Continuation”
 - Like Fibers, but more powerful
 - Save the entire call stack and resume it any time, as many times as you like
 - Will do your fucking head in

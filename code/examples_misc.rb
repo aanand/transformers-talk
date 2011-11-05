@@ -22,5 +22,16 @@ class << Examples
       end
     end
   end
+
+  define_method :normal_style_example do
+    result = do_some_io
+    puts result
+  end
+
+  define_method :cps_example do
+    do_some_io do |result|
+      puts result
+    end
+  end
 end
 
