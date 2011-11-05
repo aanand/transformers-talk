@@ -14,7 +14,7 @@ Code Blocks in Disguise
 
     x + y
 
-    # => ?
+    => ?
 
 !SLIDE
 .notes It returns 3.
@@ -24,33 +24,31 @@ Code Blocks in Disguise
 
     x + y
 
-    # => 3
+    => 3
 
 !SLIDE
-.notes What does this code return?
+.notes What does this code return? Is it even valid?
     @@@ ruby
     x <- 1
     y <- 2
 
     x + y
 
-    # => ?
-
-!SLIDE
-.notes Well actually, I mean THIS code. What does this code return? Is it even valid?
-    @@@ ruby
-    Sequence.run do
-      x <- 1
-      y <- 2
-
-      x + y
-    end
-
-    # => ?
+    => ?
 
 !SLIDE
 .notes It returns 3.
     @@@ ruby
+    x <- 1
+    y <- 2
+
+    x + y
+
+    => 3
+
+!SLIDE
+.notes Well actually, THIS code returns 3.
+    @@@ ruby
     Sequence.run do
       x <- 1
       y <- 2
@@ -58,7 +56,7 @@ Code Blocks in Disguise
       x + y
     end
 
-    # => 3
+    => 3
 
 !SLIDE
 # How? #
@@ -96,7 +94,7 @@ Code Blocks in Disguise
       end
     end
 
-    # => 3
+    => 3
 
 !SLIDE
 .notes So how do we get the original code to work? We need to turn this into this.
@@ -155,14 +153,16 @@ Code Blocks in Disguise
         Rewriter.new.process(block.to_sexp))
     end
 
-!SLIDE
+!SLIDE center
 .notes First up, Sourcify.
 
-# gem install sourcify #
+    gem install sourcify
 
 !SLIDE
 .notes Sourcify provides many useful methods, but the one we're interested in is block.to_sexp. It parses a block's source and returns an abstract syntax tree.
     @@@ ruby
+    require 'sourcify'
+
     proc { x + y }.to_sexp
 
 !SLIDE
@@ -320,9 +320,10 @@ Code Blocks in Disguise
             (:arglist
               (:call nil :y (:arglist)))))))
 
-!SLIDE
+!SLIDE center
 .notes If you install sourcify, you get Ruby2Ruby for free. (It's a dependency.)
-# Ruby2Ruby #
+    @@@ ruby
+    require 'ruby2ruby'
 
 !SLIDE
 .notes Ruby2Ruby converts S-expressions into strings of code.
@@ -332,7 +333,7 @@ Code Blocks in Disguise
         s(:arglist,
           s(:lit, "Hello World"))))
 
-    # => 'puts("Hello World")'
+    => 'puts("Hello World")'
 
 !SLIDE small-code
 .notes If we run Ruby2Ruby on that S-expression we got just now...
@@ -375,7 +376,7 @@ Sequence.instance_eval {
       x + y
     end
 
-    # => 3
+    => 3
 
 !SLIDE
 .notes So what have we achieved? Well, we've managed to implement something Ruby gives us out of the box - variable assignment - in the most complex, bizarre way possible. Why on earth would you want to do that?
@@ -421,7 +422,7 @@ Sequence.instance_eval {
       x + y
     end
 
-    # => 3
+    => 3
 
 !SLIDE
 .notes What if we set y to nil?
@@ -433,7 +434,7 @@ Sequence.instance_eval {
       x + y
     end
 
-    # => ?
+    => ?
 
 !SLIDE
 .notes We get nil. 'x + y' is never called.
@@ -445,7 +446,7 @@ Sequence.instance_eval {
       x + y
     end
 
-    # => nil
+    => nil
 
 !SLIDE
 .notes Even if the code keeps going, execution stops.
@@ -458,7 +459,7 @@ Sequence.instance_eval {
       raise "I MUST NEVER RUN"
     end
 
-    # => nil
+    => nil
 
 !SLIDE small-code
 .notes If you don't see how this might be useful, here's a simple example.
@@ -556,7 +557,7 @@ Sequence.instance_eval {
       [x+y]
     end
 
-    # => [11, 31, 13, 23]
+    => [11, 31, 13, 23]
 
 !SLIDE
 .notes I'm going to speed up now. What do you think this does?
@@ -851,7 +852,7 @@ Sequence.instance_eval {
       x + y
     end
 
-    # => 3
+    => 3
 
 !SLIDE
 .notes As does NilCheck.
@@ -863,7 +864,7 @@ Sequence.instance_eval {
       x + y
     end
 
-    # => nil
+    => nil
 
 !SLIDE
 .notes As does Search. You get the idea.
@@ -954,10 +955,13 @@ Powerful and dangerous
 !SLIDE smaller
 # Further reading #
 
-- http://en.wikipedia.org/wiki/Monad_(functional_programming)
-- http://en.wikibooks.org/wiki/Haskell/do_Notation
-- http://en.wikipedia.org/wiki/Lisp_programming_language
-- http://en.wikipedia.org/wiki/Call-with-current-continuation
+http://en.wikipedia.org/wiki/Monad_(functional_programming)
+
+http://en.wikibooks.org/wiki/Haskell/do_Notation
+
+http://en.wikipedia.org/wiki/Lisp_programming_language
+
+http://en.wikipedia.org/wiki/Call-with-current-continuation
 
 !SLIDE
 # Thanks. For real this time. #
