@@ -72,6 +72,8 @@ Code Blocks in Disguise
       end
     end
 
+    # Nothing to do with "bind" in JS
+
 !SLIDE
 .notes Second, let's implement that mysterious 'bind' method. As you can see, it just calls the block you give it with the object you give it as an argument.
     @@@ ruby
