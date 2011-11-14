@@ -52,6 +52,9 @@ pre, code, pre *, code * {
   color: #F8F8F2;
 }
 
+.step-through pre      { color: #444444 }
+.step-through .current { color: #f8f8f2 }
+
 .constant        { color: #66D9EF; }
 .string          { color: #E6DB74; }
 .comment         { color: #465457; }
