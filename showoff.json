@@ -1,10 +1,9 @@
 {
-  "name": "Transformers: Code Blocks in Disguise",
+  "name": "Reinventing Variables",
   "sections": [
     { "section": "Intro" },
     { "section": "Syntax" },
     { "section": "Transformers" },
-    { "section": "Callcc" },
     { "section": "Appendix" }
   ]
 }

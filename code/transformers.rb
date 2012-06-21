@@ -1,4 +1,4 @@
-module Sequence
+module Assignment
   class << self
     include Transformer
 

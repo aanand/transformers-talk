@@ -15,10 +15,9 @@ class Rewriter
 
     head = exp.shift
 
-
-    if head[0] == :call and head[1] and head[1][0] == :call and head[2] == :< and head[3][0] == :arglist and head[3][1][2] == :-@
-      var_name = head[1][2]
-      expression = head[3][1][1]
+    if head[0] == :lasgn
+      var_name = head[1]
+      expression = head[2]
 
       body = rewrite_assignments(exp)
 
@@ -54,5 +53,9 @@ module Transformer
     Ruby2Ruby.new.process(
       Rewriter.new.process(block.to_sexp))
   end
+
+  # def bind_const(value, &block)
+  #   bind(value) { block.call }
+  # end
 end
 
